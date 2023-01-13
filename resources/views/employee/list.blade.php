@@ -26,8 +26,14 @@
         @if (session()->has('success'))
         <div class="alert alert-success">
             {{session()->get('success')}}
-        </div>
-
+        </div>  
+        @endif
+        
+        @if (session()->has('delete'))
+         <div class="alert alert-success">
+            {{session()->get('delete')}}
+        </div>  
+         
         @endif
 
         {{-- container table --}}
@@ -66,8 +72,21 @@
                     {{-- <a href="{{ url('employees/'.$employee->id.'/edit')}}" class="btn btn-primary sm">Edit</a> --}}
                     <a href="{{ route('employees.edit',$employee->id)}}" class="btn btn-primary sm">Edit</a>
 
-                    <a href="#" class="btn btn-danger sm">Delete</a>
+                    
+                
+                        
+                    <form class="d-inline" id="delete-employee-{{$employee->id}}" action="{{route('employees.destroy',$employee->id)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-primary"> Delete</button>
+                    </form> 
+                    
+                   
 
+
+                    {{-- onclick="deleteEmployee({{$employee->id}})" --}}
+                    
+                   
                 </td>
                
                </tr>
@@ -93,3 +112,10 @@
     
 </body>
 </html>
+<script>
+    // function deleteEmployee(id){
+    //     if(confirm('Are you sure to delete?')){
+    //         decument.getElementById('delete-employee-'+id).submit();
+    //     }
+    // }
+</script>

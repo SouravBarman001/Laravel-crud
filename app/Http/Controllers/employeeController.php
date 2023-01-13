@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 
@@ -39,7 +39,7 @@ class employeeController extends Controller
           $employee->address = $request->address;
           $employee->save();
 
-       //   $request->session()->flash('success',"Employee added successfully");
+        //   $request->session()->flash('success',"Employee added successfully");
         
          //upload image here
 
@@ -57,7 +57,7 @@ class employeeController extends Controller
 
 
 
-          return redirect()->route('employees.index');
+          return redirect()->route('employees.index')->with('success',"Employee added successfully");
 
 
 
@@ -98,7 +98,7 @@ class employeeController extends Controller
           $employee->address = $request->address;
           $employee->save();
 
-       //   $request->session()->flash('success',"Employee added successfully");
+      //   $request->session()->flash('success',"Employee added successfully");
         
          //upload image here
 
@@ -112,8 +112,15 @@ class employeeController extends Controller
          
             $employee->save();
 
-
-            File::delete(public_path().'/uploads/employees/',$oldImage);
+       //     File::delete(public_path().'/uploads/employees/',$oldImage);
+            
+                
+               $image_path =  public_path('/uploads/employees/'.$oldImage);
+            
+                File::delete($image_path);
+          
+    
+         
          }
 
           return redirect()->route('employees.index');
@@ -126,5 +133,12 @@ class employeeController extends Controller
         }
         
     }
+    public function destroy($id,Request $request){
+        $employee = Employee::findOrFail($id);
+        File::delete(public_path().'/uploads/employees/',$employee->image);
+        $employee->delete();
+       // $request->session()->flash('success',"Employee added successfully");
 
+        return redirect()->route('employees.index')->with('success',"Employee deleted successfully");
+    }
 }

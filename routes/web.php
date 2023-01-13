@@ -27,5 +27,8 @@ Route::get('/employees/{employee}/edit',[employeeController::class,'edit'])->nam
 
 Route::put('/employees/{employee}',[employeeController::class,'update'])->name('employees.update');
 
+Route::delete('/employees/{employee}',[employeeController::class,'destroy'])->name('employees.destroy');
+
+
 
 
