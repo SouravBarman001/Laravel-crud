@@ -63,7 +63,9 @@
                 <td>{{$employee->email}}</td>
                 <td>{{$employee->address}}</td>
                 <td>
-                    <a href="#" class="btn btn-primary sm">Edit</a>
+                    {{-- <a href="{{ url('employees/'.$employee->id.'/edit')}}" class="btn btn-primary sm">Edit</a> --}}
+                    <a href="{{ route('employees.edit',$employee->id)}}" class="btn btn-primary sm">Edit</a>
+
                     <a href="#" class="btn btn-danger sm">Delete</a>
 
                 </td>
