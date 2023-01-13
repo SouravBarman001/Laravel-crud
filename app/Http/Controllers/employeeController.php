@@ -8,7 +8,11 @@ use App\Models\Employee;
 class employeeController extends Controller
 {
     public function index(){
-        return view('employee.list');
+
+
+        $employees = Employee::orderBy('id','DESC')->paginate(5);
+
+        return view('employee.list',['employees'=>$employees]);
     }
     public function create(){
        return view('employee.create');
@@ -18,7 +22,7 @@ class employeeController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required',
-            'image'=>'sometimes|image:gif,png,jpg'
+            'image'=>'sometimes|image:gif,png,jpg,jpeg'
         ]);
 
         if($validator->passes()){
@@ -32,6 +36,24 @@ class employeeController extends Controller
           $employee->address = $request->address;
           $employee->save();
 
+       //   $request->session()->flash('success',"Employee added successfully");
+        
+         //upload image here
+
+         if($request->image){
+            $ext = $request->image->getClientOriginalExtension();
+            $newFileName = time().'.'.$ext;
+            $request->image->move(public_path().'/uploads/employees/',$newFileName);
+            $employee->image = $newFileName; // database image name update
+            $employee->save();
+
+         }
+
+
+
+
+
+          return redirect()->route('employees.index');
 
 
 

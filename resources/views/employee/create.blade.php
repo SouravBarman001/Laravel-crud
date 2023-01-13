@@ -62,7 +62,7 @@
 
         </div>
      </div>
-         <button type="submit" class="btn btn-primary mt-3"  >Save employee</button>
+         <button class="btn btn-primary mt-3" >Save employee</button>
     </form>
 
     </div>

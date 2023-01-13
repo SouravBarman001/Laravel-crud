@@ -22,6 +22,14 @@
                 <a href="{{ route('employees.create')}}" class="btn btn-primary">Create</a>
             </div>
         </div>
+
+        @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{session()->get('success')}}
+        </div>
+
+        @endif
+
         {{-- container table --}}
      <div class="card border-0 shadow-lg mt-2">
         <div class="card-body">
@@ -35,22 +43,47 @@
                     <th>Action</th>
                    
                 </tr>
+              @if($employees->isNotEmpty())
+                
+              @foreach($employees as $employee)
+              <tr>
+                <td>{{$employee->id}}</td>
+                <td>
+                    {{-- @if($employee->image != '' && file_exists(public_path().'/uploads/employees'.$employee->image)) --}}
+                       <img src="{{ url('uploads/employees/'.$employee->image) }}" alt="{{$employee->name}}" width="40px" height="40px" class="rounded-circle">
+                      
+                     {{-- @else 
 
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td>Sourav</td>
-                    <td>sourav@gmail.com</td>
-                    <td>Joypurhat</td>
-                    <td>
-                        <a href="#" class="btn btn-primary sm">Edit</a>
-                        <a href="#" class="btn btn-danger sm">Delete</a>
+                     <img src="{{ url('assets/images/no-image.png') }}" alt="image" width="40px" height="40px" class="rounded-circle">
 
+
+                    @endif --}}
                     </td>
-                   
-                </tr>
+                <td>{{$employee->name}}</td>
+                <td>{{$employee->email}}</td>
+                <td>{{$employee->address}}</td>
+                <td>
+                    <a href="#" class="btn btn-primary sm">Edit</a>
+                    <a href="#" class="btn btn-danger sm">Delete</a>
+
+                </td>
+               
+               </tr>
+
+                @endforeach
+
+                @else
+                   <tr>
+                    <td colspan="6">record not found</td>
+                   </tr>
+                @endif
+
             </table>
         </div>
+     </div>
+       
+     <div class="mt-2">
+        {{$employees->links()}}
      </div>
 
 
